@@ -1,6 +1,8 @@
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
 import Signup from './pages/Signup.jsx';
 import Login from './pages/Login';
+import MentorDash from './pages/MentorDash';
+import MenteeDash from './pages/MenteeDash';
 
 function Home() {
   return (
