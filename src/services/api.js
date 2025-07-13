@@ -45,6 +45,7 @@ export const mentorsAPI = {
   getById: (id) => api.get(`/mentors/${id}`),
   getMentees: (search = "") => api.get(`/mentors/dashboard/mentees${search ? `?search=${search}` : ""}`),
   updateProfile: (profileData) => api.put("/mentors/profile", profileData),
+  updateMentorshipStatus: (menteeId, status) => api.post("/mentors/mentorship/status", { menteeId, status }),
 }
 
 // Mentees API

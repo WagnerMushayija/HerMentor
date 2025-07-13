@@ -473,9 +473,14 @@ const MenteeDashboard = () => {
                 >
                   {requestingMentorship ? "Sending Request..." : "Request Mentorship"}
                 </Button>
-                <Button variant="outline" style={{ flex: 1 }}>
+                <Button
+                    size="small"
+                    variant="outline"
+                    style={{ flex: 1 }}
+                    onClick={() => window.open(`mailto:${mentee.email}`, "_blank")}
+                  >
                   Send Message
-                </Button>
+                  </Button>
               </div>
             </div>
           </ModalContent>

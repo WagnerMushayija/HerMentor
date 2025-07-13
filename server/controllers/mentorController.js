@@ -89,10 +89,10 @@ export const getMentees = async (req, res) => {
       SELECT u.id, u.name, u.email,
              mep.interests, mep.learning_goals, mep.current_role, mep.experience_level,
              m.status as mentorship_status
-      FROM users u
-      INNER JOIN mentee_profiles mep ON u.id = mep.user_id
-      INNER JOIN mentorships m ON u.id = m.mentee_id
-      WHERE m.mentor_id = ? AND m.status = 'active'
+      FROM mentorships m
+      INNER JOIN users u ON u.id = m.mentee_id
+      LEFT JOIN mentee_profiles mep ON mep.user_id = u.id
+      WHERE m.mentor_id = ?
     `
 
     const params = [mentorId]
@@ -102,6 +102,8 @@ export const getMentees = async (req, res) => {
       const searchTerm = `%${search}%`
       params.push(searchTerm, searchTerm)
     }
+
+    query += ` ORDER BY m.created_at DESC`
 
     const [rows] = await pool.execute(query, params)
 
@@ -142,5 +144,31 @@ export const updateMentorProfile = async (req, res) => {
   } catch (error) {
     console.error("Update mentor profile error:", error)
     res.status(500).json({ message: "Server error updating profile" })
+  }
+}
+
+
+export const updateMentorshipStatus = async (req, res) => {
+  const { menteeId, status } = req.body
+  const mentorId = req.user.id
+
+  if (!["accepted", "rejected"].includes(status)) {
+    return res.status(400).json({ message: "Invalid status" })
+  }
+
+  try {
+    const [result] = await pool.execute(
+      `UPDATE mentorships SET status = ?, updated_at = NOW() WHERE mentor_id = ? AND mentee_id = ?`,
+      [status, mentorId, menteeId]
+    )
+
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ message: "Mentorship not found" })
+    }
+
+    res.json({ message: `Mentorship ${status}` })
+  } catch (error) {
+    console.error("Error updating mentorship status:", error)
+    res.status(500).json({ message: "Server error" })
   }
 }

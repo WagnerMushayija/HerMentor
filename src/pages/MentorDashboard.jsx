@@ -131,6 +131,8 @@ const MentorDashboard = () => {
   const [loading, setLoading] = useState(true)
   const [searchTerm, setSearchTerm] = useState("")
   const [error, setError] = useState("")
+  const [selectedMentee, setSelectedMentee] = useState(null)
+
 
   useEffect(() => {
     fetchMentees()
@@ -219,7 +221,7 @@ const MentorDashboard = () => {
         ) : (
           <Grid>
             {mentees.map((mentee) => (
-              <MenteeCard key={mentee.id}>
+              <MenteeCard key={mentee.id} onClick={() => setSelectedMentee(mentee)} style={{ cursor: "pointer" }}>
                 <h3>{mentee.name}</h3>
                 <div className="role">{mentee.current_role || "Role not specified"}</div>
 
@@ -243,20 +245,83 @@ const MentorDashboard = () => {
                 )}
 
                 <div style={{ display: "flex", gap: "0.5rem" }}>
-                  <Button size="small" style={{ flex: 1 }}>
-                    Schedule Meeting
+                <Button
+                  size="small"
+                  style={{ flex: 1 }}
+                  onClick={() => {
+                    const title = encodeURIComponent("Mentorship Meeting");
+                    const details = encodeURIComponent(`Let's have a mentorship session`);
+                    const email = encodeURIComponent(mentee.email); // or mentor.email
+                    const calendarUrl = `https://calendar.google.com/calendar/u/0/r/eventedit?text=${title}&details=${details}&add=${email}`;
+
+                    window.open(calendarUrl, "_blank");
+                  }}
+                >
+                  Schedule Meeting
+                </Button>
+                  <Button
+                    size="small"
+                    variant="outline"
+                    style={{ flex: 1 }}
+                    onClick={() => window.open(`mailto:${mentee.email}`, "_blank")}
+                  >
+                  Send Message
                   </Button>
-                  <Button size="small" variant="outline" style={{ flex: 1 }}>
-                    Send Message
-                  </Button>
+                  <div style={{ display: "flex", gap: "0.5rem", marginTop: "1rem" }}>
+                  
+                  </div>
+
                 </div>
               </MenteeCard>
             ))}
           </Grid>
         )}
       </Section>
+      {selectedMentee && (
+        <div
+          onClick={() => setSelectedMentee(null)}
+          style={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            background: "rgba(0, 0, 0, 0.6)",
+            zIndex: 9999,
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <div
+            onClick={(e) => e.stopPropagation()}
+            style={{
+              background: "#fff",
+              padding: "2rem",
+              borderRadius: "12px",
+              maxWidth: "600px",
+              width: "90%",
+              boxShadow: "0 2px 20px rgba(0,0,0,0.2)",
+            }}
+          >
+            <h2>{selectedMentee.name}</h2>
+            <p><strong>Email:</strong> {selectedMentee.email}</p>
+            <p><strong>Current Role:</strong> {selectedMentee.current_role}</p>
+            <p><strong>Experience Level:</strong> {selectedMentee.experience_level}</p>
+            <p><strong>Learning Goals:</strong> {selectedMentee.learning_goals}</p>
+            <p><strong>Interests:</strong> {selectedMentee.interests?.join(", ")}</p>
+            <div style={{ marginTop: "1rem" }}>
+              <Button size="small" onClick={() => setSelectedMentee(null)}>Close</Button>
+            </div>
+          </div>
+        </div>
+      )}
+
     </DashboardContainer>
   )
 }
+
+
+
 
 export default MentorDashboard

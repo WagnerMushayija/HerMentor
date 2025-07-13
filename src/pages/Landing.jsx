@@ -786,7 +786,7 @@ const Landing = () => {
         </TestimonialsContainer>
       </TestimonialsSection>
 
-      <TeamSection>
+      {/* <TeamSection>
         <TeamContainer>
           <SectionTitle>Meet Our Team</SectionTitle>
           <SectionSubtitle>
@@ -803,7 +803,7 @@ const Landing = () => {
             ))}
           </TeamGrid>
         </TeamContainer>
-      </TeamSection>
+      </TeamSection> */}
 
       <ContactSection>
         <ContactContainer>
