@@ -126,6 +126,23 @@ const LoadingState = styled.div`
   color: ${(props) => props.theme.colors.text.secondary};
 `
 
+const ButtonGroup = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-top: 1rem;
+
+  .row {
+    display: flex;
+    gap: 0.5rem;
+
+    button {
+      flex: 1;
+    }
+  }
+`
+
+
 const MentorDashboard = () => {
   const [mentees, setMentees] = useState([])
   const [loading, setLoading] = useState(true)
@@ -219,62 +236,91 @@ const MentorDashboard = () => {
             </p>
           </EmptyState>
         ) : (
-          <Grid>
-            {mentees.map((mentee) => (
-              <MenteeCard key={mentee.id} onClick={() => setSelectedMentee(mentee)} style={{ cursor: "pointer" }}>
-                <h3>{mentee.name}</h3>
-                <div className="role">{mentee.current_role || "Role not specified"}</div>
+        <Grid>
+          {mentees.map((mentee) => (
+            <MenteeCard
+              key={mentee.id}
+              onClick={() => setSelectedMentee(mentee)}
+              style={{ cursor: "pointer" }}
+            >
+              <h3>{mentee.name}</h3>
+              <div className="role">{mentee.current_role || "Role not specified"}</div>
 
-                {mentee.interests && mentee.interests.length > 0 && (
-                  <div className="interests">
-                    <strong>Interests:</strong>
-                    <div className="tags">
-                      {mentee.interests.map((interest, index) => (
-                        <span key={index} className="tag">
-                          {interest}
-                        </span>
-                      ))}
-                    </div>
+              {mentee.interests && mentee.interests.length > 0 && (
+                <div className="interests">
+                  <strong>Interests:</strong>
+                  <div className="tags">
+                    {mentee.interests.map((interest, index) => (
+                      <span key={index} className="tag">
+                        {interest}
+                      </span>
+                    ))}
                   </div>
-                )}
+                </div>
+              )}
 
-                {mentee.learning_goals && (
-                  <div className="goals">
-                    <strong>Goals:</strong> {mentee.learning_goals}
-                  </div>
-                )}
+              {mentee.learning_goals && (
+                <div className="goals">
+                  <strong>Goals:</strong> {mentee.learning_goals}
+                </div>
+              )}
 
-                <div style={{ display: "flex", gap: "0.5rem" }}>
-                <Button
-                  size="small"
-                  style={{ flex: 1 }}
-                  onClick={() => {
-                    const title = encodeURIComponent("Mentorship Meeting");
-                    const details = encodeURIComponent(`Let's have a mentorship session`);
-                    const email = encodeURIComponent(mentee.email); // or mentor.email
-                    const calendarUrl = `https://calendar.google.com/calendar/u/0/r/eventedit?text=${title}&details=${details}&add=${email}`;
-
-                    window.open(calendarUrl, "_blank");
-                  }}
-                >
-                  Schedule Meeting
-                </Button>
+              <ButtonGroup>
+                <div className="row">
+                  <Button
+                    size="small"
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      const title = encodeURIComponent("Mentorship Meeting")
+                      const details = encodeURIComponent("Let's have a mentorship session")
+                      const email = encodeURIComponent(mentee.email)
+                      const calendarUrl = `https://calendar.google.com/calendar/u/0/r/eventedit?text=${title}&details=${details}&add=${email}`
+                      window.open(calendarUrl, "_blank")
+                    }}
+                  >
+                    Schedule Meeting
+                  </Button>
                   <Button
                     size="small"
                     variant="outline"
-                    style={{ flex: 1 }}
-                    onClick={() => window.open(`mailto:${mentee.email}`, "_blank")}
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      window.open(`mailto:${mentee.email}`, "_blank")
+                    }}
                   >
-                  Send Message
+                    Send Message
                   </Button>
-                  <div style={{ display: "flex", gap: "0.5rem", marginTop: "1rem" }}>
-                  
-                  </div>
-
                 </div>
-              </MenteeCard>
-            ))}
-          </Grid>
+
+                <div className="row">
+                  <Button
+                    size="small"
+                    variant="success"
+                    onClick={async (e) => {
+                      e.stopPropagation()
+                      await mentorsAPI.updateMentorshipStatus(mentee.id, "accepted")
+                      fetchMentees()
+                    }}
+                  >
+                    Accept
+                  </Button>
+                  <Button
+                    size="small"
+                    variant="danger"
+                    onClick={async (e) => {
+                      e.stopPropagation()
+                      await mentorsAPI.updateMentorshipStatus(mentee.id, "rejected")
+                      fetchMentees()
+                    }}
+                  >
+                    Reject
+                  </Button>
+                </div>
+              </ButtonGroup>
+            </MenteeCard>
+          ))}
+        </Grid>
+
         )}
       </Section>
       {selectedMentee && (

@@ -160,7 +160,7 @@ const Login = () => {
           </Button>
         </Form>
 
-        <DemoCredentials>
+        {/* <DemoCredentials>
           <h4>Demo Accounts:</h4>
           <p>
             <strong>Mentor:</strong>
@@ -185,7 +185,7 @@ const Login = () => {
             </Button>
           </p>
           <p style={{ marginTop: "0.5rem", fontStyle: "italic" }}>Password: password123</p>
-        </DemoCredentials>
+        </DemoCredentials> */}
 
         <SignupLink>
           Don't have an account? <Link to="/signup">Create one</Link>
