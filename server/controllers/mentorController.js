@@ -3,16 +3,23 @@ import { pool } from "../db/connection.js"
 export const getAllMentors = async (req, res) => {
   try {
     const { search } = req.query
+    const menteeId = req.user?.id // might be undefined if not logged in
 
     let query = `
       SELECT u.id, u.name, u.email,
-             mp.title, mp.bio, mp.expertise, mp.experience, mp.rating, mp.total_reviews
+             mp.title, mp.bio, mp.expertise, mp.experience, mp.rating, mp.total_reviews,
+             (
+               SELECT status 
+               FROM mentorships 
+               WHERE mentor_id = u.id AND mentee_id = ?
+               LIMIT 1
+             ) AS mentorship_status
       FROM users u
       INNER JOIN mentor_profiles mp ON u.id = mp.user_id
       WHERE u.role = 'mentor'
     `
 
-    const params = []
+    const params = [menteeId || 0]
 
     if (search) {
       query += ` AND (u.name LIKE ? OR mp.title LIKE ? OR mp.bio LIKE ?)`
@@ -24,7 +31,6 @@ export const getAllMentors = async (req, res) => {
 
     const [rows] = await pool.execute(query, params)
 
-    // Parse expertise with try-catch
     const mentors = rows.map((mentor) => ({
       ...mentor,
       expertise: (() => {
@@ -43,6 +49,7 @@ export const getAllMentors = async (req, res) => {
     res.status(500).json({ message: "Server error fetching mentors" })
   }
 }
+
 
 export const getMentorById = async (req, res) => {
   try {

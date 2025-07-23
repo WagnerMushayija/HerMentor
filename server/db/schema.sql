@@ -47,7 +47,7 @@ CREATE TABLE mentorships (
     id INT AUTO_INCREMENT PRIMARY KEY,
     mentor_id INT NOT NULL,
     mentee_id INT NOT NULL,
-    status ENUM('pending', 'active', 'completed', 'cancelled') DEFAULT 'pending',
+    status ENUM('pending', 'accepted', 'rejected') NOT NULL DEFAULT 'pending',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     FOREIGN KEY (mentor_id) REFERENCES users(id) ON DELETE CASCADE,

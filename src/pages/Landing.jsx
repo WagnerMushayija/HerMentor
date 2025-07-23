@@ -602,28 +602,10 @@ const Landing = () => {
 
   const teamMembers = [
     {
-      name: "Alex Thompson",
-      position: "CEO & Founder",
-      bio: "Former Google engineer passionate about connecting talent with opportunity.",
-      avatar: "AT",
-    },
-    {
-      name: "Maria Garcia",
-      position: "Head of Product",
-      bio: "Product leader with 10+ years experience building user-centric platforms.",
-      avatar: "MG",
-    },
-    {
-      name: "David Kim",
-      position: "CTO",
-      bio: "Full-stack engineer focused on building scalable, secure platforms.",
-      avatar: "DK",
-    },
-    {
-      name: "Lisa Park",
-      position: "Head of Community",
-      bio: "Community builder dedicated to fostering meaningful professional relationships.",
-      avatar: "LP",
+      name: "Wagner Mushayija",
+      position: "ALU Student",
+      bio: "Passionate about inclusive Tech and empowering communities",
+      avatar: "WM",
     },
   ]
 
@@ -632,12 +614,17 @@ const Landing = () => {
       <TopNav>
         <Logo>HerMentor</Logo>
         <NavLinks>
+          <a href="#FeaturesSection">Who We Are</a>
+          <a href="#FeaturesSection">Testimonial</a>
+          <a href="#FeaturesSection">Mission</a>
+          <a href="#FeaturesSection">Contact us</a>
           <Button as={Link} to="/login" variant="outline" size="small">
             Login
           </Button>
           <Button as={Link} to="/signup" size="small">
             Sign Up
           </Button>
+          
         </NavLinks>
       </TopNav>
 
@@ -657,7 +644,7 @@ const Landing = () => {
         </CTAButtons>
       </HeroSection>
 
-      <StatsSection>
+      {/* <StatsSection>
         <StatsContainer>
           <StatItem>
             <div className="number">2,500+</div>
@@ -676,7 +663,7 @@ const Landing = () => {
             <div className="label">Industries</div>
           </StatItem>
         </StatsContainer>
-      </StatsSection>
+      </StatsSection> */}
 
       <FeaturesSection>
         <SectionTitle>Why Choose HerMentor?</SectionTitle>
@@ -786,7 +773,7 @@ const Landing = () => {
         </TestimonialsContainer>
       </TestimonialsSection>
 
-      {/* <TeamSection>
+      <TeamSection>
         <TeamContainer>
           <SectionTitle>Meet Our Team</SectionTitle>
           <SectionSubtitle>
@@ -803,7 +790,7 @@ const Landing = () => {
             ))}
           </TeamGrid>
         </TeamContainer>
-      </TeamSection> */}
+      </TeamSection>
 
       <ContactSection>
         <ContactContainer>
@@ -883,10 +870,10 @@ const Landing = () => {
                   <Link to="/login">Login</Link>
                 </li>
                 <li>
-                  <Link to="/mentee-dashboard">Find Mentors</Link>
+                  <Link to="/login">Find Mentors</Link>
                 </li>
                 <li>
-                  <Link to="/mentor-dashboard">Become a Mentor</Link>
+                  <Link to="/login">Become a Mentor</Link>
                 </li>
               </ul>
             </FooterSection>
@@ -911,9 +898,9 @@ const Landing = () => {
 
             <FooterSection>
               <h4>Contact</h4>
-              <p>Email: hello@hermentor.com</p>
-              <p>Phone: +1 (555) 123-4567</p>
-              <p>Address: 123 Innovation St, Tech City, TC 12345</p>
+              <p>Email: xxxxx</p>
+              <p>Phone: xxxxx</p>
+              <p>Address: xxxxx</p>
             </FooterSection>
           </FooterContent>
 
@@ -932,7 +919,7 @@ const Landing = () => {
                 📘
               </a>
             </div>
-            <p>&copy; 2024 HerMentor. All rights reserved. Made with ❤️ for empowering women.</p>
+            <p>&copy; 2024 HerMentor. Wagner Mushayija</p>
           </FooterBottom>
         </FooterContainer>
       </Footer>

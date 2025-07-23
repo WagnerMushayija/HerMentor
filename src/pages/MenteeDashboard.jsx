@@ -407,85 +407,113 @@ const MenteeDashboard = () => {
       </Section>
 
       {selectedMentor && (
-        <Modal onClick={closeMentorProfile}>
-          <ModalContent onClick={(e) => e.stopPropagation()}>
-            <button className="close-btn" onClick={closeMentorProfile}>
-              ×
-            </button>
+  <Modal onClick={closeMentorProfile}>
+    <ModalContent onClick={(e) => e.stopPropagation()}>
+      <button className="close-btn" onClick={closeMentorProfile}>
+        ×
+      </button>
 
-            <div className="mentor-profile">
-              <div className="header">
-                <div className="avatar">
-                  {selectedMentor.name
-                    .split(" ")
-                    .map((n) => n[0])
-                    .join("")}
-                </div>
-                <div className="info">
-                  <h2>{selectedMentor.name}</h2>
-                  <div className="title">{selectedMentor.title || "Professional Mentor"}</div>
-                  <div className="rating">
-                    <span className="stars">{generateStars(selectedMentor.rating || 0)}</span>
-                    <span>
-                      {selectedMentor.rating || 0} ({selectedMentor.total_reviews || 0} reviews)
-                    </span>
-                  </div>
-                </div>
-              </div>
-
-              <div className="section">
-                <h3>About</h3>
-                <p>{selectedMentor.bio || "No bio available"}</p>
-              </div>
-
-              {selectedMentor.expertise && selectedMentor.expertise.length > 0 && (
-                <div className="section">
-                  <h3>Expertise</h3>
-                  <div className="expertise-tags">
-                    {selectedMentor.expertise.map((skill, index) => (
-                      <span key={index} className="tag">
-                        {skill}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              {selectedMentor.experience && (
-                <div className="section">
-                  <h3>Experience</h3>
-                  <p>{selectedMentor.experience}</p>
-                </div>
-              )}
-
-              {selectedMentor.availability && (
-                <div className="section">
-                  <h3>Availability</h3>
-                  <p>{selectedMentor.availability}</p>
-                </div>
-              )}
-
-              <div style={{ display: "flex", gap: "1rem", marginTop: "2rem" }}>
-                <Button
-                  style={{ flex: 1 }}
-                  disabled={requestingMentorship}
-                  onClick={() => handleRequestMentorship(selectedMentor.id)}
-                >
-                  {requestingMentorship ? "Sending Request..." : "Request Mentorship"}
-                </Button>
-                <Button
-                    size="small"
-                    variant="outline"
-                    style={{ flex: 1 }}
-                    onClick={() => window.open(`mailto:${mentee.email}`, "_blank")}
-                  >
-                  Send Message
-                  </Button>
-              </div>
+      <div className="mentor-profile">
+        <div className="header">
+          <div className="avatar">
+            {selectedMentor.name
+              .split(" ")
+              .map((n) => n[0])
+              .join("")}
+          </div>
+          <div className="info">
+            <h2>{selectedMentor.name}</h2>
+            <div className="title">{selectedMentor.title || "Professional Mentor"}</div>
+            <div className="rating">
+              <span className="stars">{generateStars(selectedMentor.rating || 0)}</span>
+              <span>
+                {selectedMentor.rating || 0} ({selectedMentor.total_reviews || 0} reviews)
+              </span>
             </div>
-          </ModalContent>
-        </Modal>
-      )}
+          </div>
+        </div>
+
+        {/* MENTORSHIP STATUS DISPLAY */}
+        {selectedMentor.mentorship_status && (
+          <div
+            style={{
+              backgroundColor:
+                selectedMentor.mentorship_status === "accepted"
+                  ? "#d4edda"
+                  : selectedMentor.mentorship_status === "rejected"
+                  ? "#f8d7da"
+                  : "#fff3cd",
+              color:
+                selectedMentor.mentorship_status === "accepted"
+                  ? "#155724"
+                  : selectedMentor.mentorship_status === "rejected"
+                  ? "#721c24"
+                  : "#856404",
+              padding: "0.75rem 1rem",
+              borderRadius: "8px",
+              fontWeight: "500",
+              marginBottom: "1.5rem",
+              textAlign: "center",
+            }}
+          >
+            Mentorship Status: {selectedMentor.mentorship_status.toUpperCase()}
+          </div>
+        )}
+
+        <div className="section">
+          <h3>About</h3>
+          <p>{selectedMentor.bio || "No bio available"}</p>
+        </div>
+
+        {selectedMentor.expertise && selectedMentor.expertise.length > 0 && (
+          <div className="section">
+            <h3>Expertise</h3>
+            <div className="expertise-tags">
+              {selectedMentor.expertise.map((skill, index) => (
+                <span key={index} className="tag">
+                  {skill}
+                </span>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {selectedMentor.experience && (
+          <div className="section">
+            <h3>Experience</h3>
+            <p>{selectedMentor.experience}</p>
+          </div>
+        )}
+
+        {selectedMentor.availability && (
+          <div className="section">
+            <h3>Availability</h3>
+            <p>{selectedMentor.availability}</p>
+          </div>
+        )}
+
+        <div style={{ display: "flex", gap: "1rem", marginTop: "2rem" }}>
+          <Button
+            style={{ flex: 1 }}
+            disabled={requestingMentorship}
+            onClick={() => handleRequestMentorship(selectedMentor.id)}
+          >
+            {requestingMentorship ? "Sending Request..." : "Request Mentorship"}
+          </Button>
+          <Button
+            size="small"
+            variant="outline"
+            style={{ flex: 1 }}
+            onClick={() => window.open(`mailto:${selectedMentor.email}`, "_blank")}
+          >
+            Send Message
+          </Button>
+        </div>
+      </div>
+    </ModalContent>
+  </Modal>
+)}
+
     </DashboardContainer>
   )
 }

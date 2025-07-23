@@ -293,7 +293,7 @@ const MentorDashboard = () => {
                 </div>
 
                 <div className="row">
-                  <Button
+                  {/* <Button
                     size="small"
                     variant="success"
                     onClick={async (e) => {
@@ -314,7 +314,7 @@ const MentorDashboard = () => {
                     }}
                   >
                     Reject
-                  </Button>
+                  </Button> */}
                 </div>
               </ButtonGroup>
             </MenteeCard>
