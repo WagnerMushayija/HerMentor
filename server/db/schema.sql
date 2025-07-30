@@ -2,6 +2,28 @@
 CREATE DATABASE IF NOT EXISTS hermentor_db;
 USE hermentor_db;
 
+
+-- Blogs table
+CREATE TABLE blogs (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    mentor_id INT NOT NULL,
+    title VARCHAR(255) NOT NULL,
+    content TEXT NOT NULL,
+    image_url VARCHAR(500),
+    excerpt VARCHAR(500),
+    slug VARCHAR(255) UNIQUE,
+    published BOOLEAN DEFAULT true,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (mentor_id) REFERENCES users(id) ON DELETE CASCADE
+);
+
+-- Create indexes for better performance
+CREATE INDEX idx_blogs_mentor_id ON blogs(mentor_id);
+CREATE INDEX idx_blogs_published ON blogs(published);
+CREATE INDEX idx_blogs_created_at ON blogs(created_at DESC);
+CREATE INDEX idx_blogs_slug ON blogs(slug);
+
 -- Users table
 CREATE TABLE users (
     id INT AUTO_INCREMENT PRIMARY KEY,

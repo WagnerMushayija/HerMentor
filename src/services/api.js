@@ -66,4 +66,27 @@ export const contactAPI = {
   submit: (contactData) => api.post("/contact", contactData),
 }
 
+// Blog API
+export const blogAPI = {
+  getAll: (params = {}) => {
+    const queryString = new URLSearchParams(params).toString()
+    return api.get(`/blogs${queryString ? `?${queryString}` : ""}`)
+  },
+  getById: (id) => api.get(`/blogs/post/${id}`),
+  getBySlug: (slug) => api.get(`/blogs/slug/${slug}`),
+  create: (blogData) => api.post("/blogs", blogData),
+  getMentorBlogs: (params = {}) => {
+    const queryString = new URLSearchParams(params).toString()
+    return api.get(`/blogs/my-blogs${queryString ? `?${queryString}` : ""}`)
+  },
+  update: (id, blogData) => api.put(`/blogs/${id}`, blogData),
+  delete: (id) => api.delete(`/blogs/${id}`),
+}
+
+
+export const blogsAPI = {
+  getAll: () => api.get("/blogs"),
+  create: (blogData) => api.post("/blogs", blogData),
+};
+
 export default api

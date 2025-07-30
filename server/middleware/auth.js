@@ -1,5 +1,33 @@
 import jwt from "jsonwebtoken"
 import { pool } from "../db/connection.js"
+import multer from "multer"
+import path from "path"
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "uploads/blogs")
+  },
+  filename: function (req, file, cb) {
+    const ext = path.extname(file.originalname)
+    cb(null, Date.now() + ext)
+  }
+})
+
+export const uploadMedia = multer({
+  storage,
+  limits: { fileSize: 5 * 1024 * 1024 }, // 5MB max
+  fileFilter: function (req, file, cb) {
+    const allowedTypes = /jpeg|jpg|png|webp/
+    const ext = path.extname(file.originalname).toLowerCase()
+    const mime = file.mimetype
+    if (allowedTypes.test(ext) && allowedTypes.test(mime)) {
+      cb(null, true)
+    } else {
+      cb(new Error("Only image files are allowed"))
+    }
+  }
+})
+
 
 export const authenticateToken = async (req, res, next) => {
   try {

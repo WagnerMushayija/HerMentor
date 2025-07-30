@@ -2,6 +2,8 @@ import express from "express"
 import cors from "cors"
 import dotenv from "dotenv"
 import { testConnection } from "./db/connection.js"
+import path from "path"
+import { fileURLToPath } from "url";
 
 // Import routes
 import authRoutes from "./routes/auth.js"
@@ -9,10 +11,14 @@ import mentorRoutes from "./routes/mentors.js"
 import menteeRoutes from "./routes/mentees.js"
 import contactRoutes from "./routes/contact.js"
 import userRoutes from "./routes/users.js"
+import blogRoutes from "./routes/blogs.js"
+import { dirname } from "path";
+
 
 // Load environment variables
 dotenv.config()
-
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 const app = express()
 const PORT = process.env.PORT || 5000
 
@@ -33,6 +39,8 @@ app.use("/api/mentors", mentorRoutes)
 app.use("/api/mentees", menteeRoutes)
 app.use("/api/contact", contactRoutes)
 app.use("/api/users", userRoutes)
+app.use("/api/blogs", blogRoutes)
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 // Health check endpoint
 app.get("/api/health", (req, res) => {

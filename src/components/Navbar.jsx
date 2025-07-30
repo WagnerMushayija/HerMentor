@@ -122,12 +122,14 @@ const Navbar = () => {
                 <NavLink to="/mentor-dashboard" onClick={() => setMenuOpen(false)}>Mentor Dashboard</NavLink>
                 <NavLink to="/mentee-dashboard" onClick={() => setMenuOpen(false)}>Mentee Dashboard</NavLink>
                 <NavLink to="/profile" onClick={() => setMenuOpen(false)}>Profile</NavLink>
+                {user && user.role === "mentor" && isDashboard && <NavLink to="/mentor/blog/new">Write Blog</NavLink>}
               </>
             ) : (
               <NavLink to={user.role === "mentor" ? "/mentor-dashboard" : "/mentee-dashboard"} onClick={() => setMenuOpen(false)}>
                 Dashboard
               </NavLink>
             )}
+            <NavLink to="/blogs">Blog</NavLink>
             <Button variant="outline" size="small" onClick={handleLogout}>
               Logout
             </Button>
@@ -138,6 +140,7 @@ const Navbar = () => {
             <Button as={Link} to="/signup" size="small" onClick={() => setMenuOpen(false)}>
               Sign Up
             </Button>
+            <NavLink to="/blogs">Blog</NavLink>
           </>
         )}
       </NavLinks>

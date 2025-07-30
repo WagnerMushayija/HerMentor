@@ -10,7 +10,9 @@ import MentorDashboard from "./pages/MentorDashboard"
 import MenteeDashboard from "./pages/MenteeDashboard"
 import Profile from "./pages/Profile"
 import ProtectedRoute from "./components/ProtectedRoute"
-
+import Blogs from "./pages/Blogs"
+import BlogPost from "./pages/BlogPost"
+import CreateBlog from "./pages/CreateBlog"
 function App() {
   return (
     <ThemeProvider theme={theme}>
@@ -41,6 +43,16 @@ function App() {
               element={
                 <ProtectedRoute>
                   <Profile />
+                </ProtectedRoute>
+              }
+            />
+            <Route path="/blogs" element={<Blogs />} />
+            <Route path="/blogs/:id" element={<BlogPost />} />
+            <Route
+              path="/mentor/blog/new"
+              element={
+                <ProtectedRoute requiredRole="mentor">
+                  <CreateBlog />
                 </ProtectedRoute>
               }
             />
