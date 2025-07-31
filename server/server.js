@@ -61,17 +61,23 @@ app.use("*", (req, res) => {
 })
 
 // Start server
-const startServer = async () => {
-  try {
-    await testConnection()
-    app.listen(PORT, () => {
-      console.log(`🚀 Server running on port ${PORT}`)
-      console.log(`📱 Frontend URL: ${process.env.CLIENT_URL}`)
-    })
-  } catch (error) {
-    console.error("Failed to start server:", error)
-    process.exit(1)
-  }
-}
+// const startServer = async () => {
+//   try {
+//     await testConnection()
+//     app.listen(PORT, () => {
+//       console.log(`🚀 Server running on port ${PORT}`)
+//       console.log(`📱 Frontend URL: ${process.env.CLIENT_URL}`)
+//     })
+//   } catch (error) {
+//     console.error("Failed to start server:", error)
+//     process.exit(1)
+//   }
+// }
 
-startServer()
+// startServer()
+
+
+testConnection().catch(console.error)
+
+// Export the app for Vercel
+export default app
