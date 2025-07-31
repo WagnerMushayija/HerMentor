@@ -43,7 +43,7 @@ app.use("/api/contact", contactRoutes)
 app.use("/api/users", userRoutes)
 app.use("/api/blogs", blogRoutes)
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
-
+app.options("*", cors());
 // Health check endpoint
 app.get("/api/health", (req, res) => {
   res.json({ message: "HerMentor API is running!" })
