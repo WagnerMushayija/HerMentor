@@ -32,6 +32,8 @@ app.use(
 
 app.use(express.json({ limit: "10mb" }))
 app.use(express.urlencoded({ extended: true }))
+app.use(express.static('public'));
+
 
 // Routes
 app.use("/api/auth", authRoutes)
